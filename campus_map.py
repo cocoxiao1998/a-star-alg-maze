@@ -2,10 +2,15 @@
 # can traverse/white = values above "[250, 250, 250]" 
 
 import cv2
+import csv
+import json 
+from find_path_alg import find_path_alg
 
 # global variables
 flag = 0
 img = cv2.imread("campus_map.jpg")
+w = int
+h = int
 window_name = "Campus Map"
 starting_position = list()
 ending_position = list()
@@ -14,15 +19,26 @@ path_color = (0, 255, 0)
 def main():
 
     global img
+    global w, h
     global window_name
+    
+    dimensions = img.shape
+    h = dimensions[0]
+    w = dimensions[1]
+
+    # # reading from the csv file
+    # with open("campus_map.csv", "r") as f:
+    #     reader = csv.reader(f)
+    #     campus_map_matrix = list(reader)
+
+    # # converting json to list for each index
+    # for i in range(w):
+    #     for j in range(h):
+    #         campus_map_matrix[j][i] = json.loads(campus_map_matrix[j][i])
 
     # displaying the image in a window for a user to choose a starting position
     print("Choose a valid starting position (white pixel) by double left clicking on the image.")
     print("Click any key to exit out of this program at any time.")
-
-    dimensions = img.shape
-    h = dimensions[0]
-    w = dimensions[1]
 
     cv2.imshow(window_name, img)
     cv2.setMouseCallback(window_name, mouse_events)
@@ -31,8 +47,7 @@ def main():
 def mouse_events(event, x, y, flags, param):
     global flag
     global img
-    global starting_position
-    global ending_position
+    global starting_position, ending_position
     global path_color
 
     if event == cv2.EVENT_LBUTTONDBLCLK:
@@ -62,11 +77,16 @@ def mouse_events(event, x, y, flags, param):
             ending_position.append(y)
 
             # calling function to find path
-            path()
+            find_path()
             flag += 1
             
-def path():
+def find_path():
+    global img
+    global w, h
+    global starting_position, ending_position
+    global path_color
 
+    find_path_alg(img, w, h, starting_position, ending_position, path_color)
 
     # calling function to save the new image
     save_file()

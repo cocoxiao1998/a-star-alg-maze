@@ -67,7 +67,6 @@ def mouse_events(event, x, y, flags, param):
             print("The starting position you chose was: (%d, %d)" % (x, y))
             starting_position.append(x)
             starting_position.append(y)
-            img[y, x] = path_color
             flag += 1
         # getting ending position
         elif flag == 1 and color_flag == 1:

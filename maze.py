@@ -8,10 +8,10 @@ from find_path_alg import find_path_alg
 
 # global variables
 flag = 0
-img = cv2.imread("campus_map.jpg")
-w = int
-h = int
-window_name = "Campus Map"
+img = cv2.imread("maze.jpg")
+width = int
+height = int
+window_name = "Maze"
 starting_position = list()
 ending_position = list()
 path_color = (0, 255, 0)
@@ -19,26 +19,16 @@ path_color = (0, 255, 0)
 def main():
 
     global img
-    global w, h
+    global width, height
     global window_name
     
     dimensions = img.shape
-    h = dimensions[0]
-    w = dimensions[1]
-
-    # # reading from the csv file
-    # with open("campus_map.csv", "r") as f:
-    #     reader = csv.reader(f)
-    #     campus_map_matrix = list(reader)
-
-    # # converting json to list for each index
-    # for i in range(w):
-    #     for j in range(h):
-    #         campus_map_matrix[j][i] = json.loads(campus_map_matrix[j][i])
+    height = dimensions[0]
+    width = dimensions[1]
 
     # displaying the image in a window for a user to choose a starting position
     print("Choose a valid starting position (white pixel) by double left clicking on the image.")
-    print("Click any key to exit out of this program at any time.")
+    print("Click any key to exit out of this program at any time.\n")
 
     cv2.imshow(window_name, img)
     cv2.setMouseCallback(window_name, mouse_events)
@@ -81,11 +71,11 @@ def mouse_events(event, x, y, flags, param):
             
 def find_path():
     global img
-    global w, h
+    global width, height
     global starting_position, ending_position
     global path_color
 
-    find_path_alg(img, w, h, starting_position, ending_position, path_color)
+    find_path_alg(img, width, height, starting_position, ending_position, path_color)
 
     # calling function to save the new image
     save_file()
@@ -93,11 +83,11 @@ def find_path():
 def save_file():
     global img
     # writing the final image as user inputted filename
-    filename = input("Enter a filename for the image to save as: ")
+    filename = input("\nEnter a filename for the image to save as: ")
     try:
         cv2.imwrite(filename, img)
     except:
-        print("There was an error saving the image. Exiting program.")
+        print("The filename you entered is invalid. Exiting program.")
         exit()
 
     print("The image was successfully saved. Exiting program.")

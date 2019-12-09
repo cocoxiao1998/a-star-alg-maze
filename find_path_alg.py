@@ -5,7 +5,7 @@ import numpy as np
 
 # checks if node exists
 def exists(img, x, y, width, height):
-    if x < width and y < height:
+    if x < width and x >= 0 and y < height and y >= 0:
         return True
     else: 
         return False
@@ -196,5 +196,5 @@ def find_path_alg(img, width, height, starting_position, ending_position, path_c
 
                 direction_counter += 1
 
-    print("Path was not found. Exiting program")
+    print("Path was not found. Exiting program.")
     exit()
